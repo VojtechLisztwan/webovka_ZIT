@@ -1,0 +1,54 @@
+/* Efekt pomalého zoomu pro carousel obrázky */
+.carousel-zoom {
+  transition: transform 8s linear;
+}
+.carousel-zoom.zooming {
+  transform: scale(1.15);
+}
+
+/* CSS proměnné pro palety (přepisuje JS) */
+body, html {
+  transition: background 0.3s, color 0.3s;
+}
+
+body {
+  background-color: var(--bs-body-bg, #fff) !important;
+  color: var(--bs-body-color, #212529) !important;
+}
+
+.card {
+  background-color: var(--bs-card-bg, #fff) !important;
+  color: var(--bs-body-color, #212529) !important;
+}
+
+.navbar, .navbar.bg-primary, .navbar-dark.bg-primary {
+  background-color: var(--bs-navbar-bg, #0d6efd) !important;
+}
+.navbar .navbar-brand, .navbar .nav-link {
+  color: var(--bs-navbar-color, #fff) !important;
+}
+.navbar .nav-link.active {
+  color: #ffc107 !important;
+}
+
+footer.bg-light {
+  background-color: var(--bs-footer-bg, #f8f9fa) !important;
+  color: var(--bs-footer-color, #6c757d) !important;
+  box-shadow: none !important;
+}
+
+/* Speciální úpravy pro tmavou paletu */
+.palette-dark .alert-warning {
+  background-color: #3a3b3c !important;
+  color: #ffe082 !important;
+  border-color: #ffc107 !important;
+}
+.palette-dark .btn-primary {
+  background-color: #495057 !important;
+  border-color: #495057 !important;
+  color: #f8f9fa !important;
+}
+.palette-dark .btn-primary:hover {
+  background-color: #343a40 !important;
+  border-color: #343a40 !important;
+}
