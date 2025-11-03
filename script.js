@@ -1,3 +1,29 @@
+// Zvýraznění aktivní položky v navbaru podle stránky (po načtení headeru)
+function highlightActiveNav() {
+    const path = window.location.pathname.split("/").pop();
+    if (path === "index.html" || path === "") {
+        document.getElementById("nav-home")?.classList.add("active");
+    } else if (path === "about_me.html") {
+        document.getElementById("nav-about")?.classList.add("active");
+    } else if (path === "projekty.html") {
+        document.getElementById("nav-projects")?.classList.add("active");
+    }
+}
+// Dynamické načtení headeru a footeru a inicializace palet až po načtení headeru
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+            highlightActiveNav(); // zvýraznění aktivní položky až po načtení headeru
+            initPalette(); // inicializace palet až po načtení headeru
+        });
+    fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+});
 // Dynamický zoom pro carousel obrázky na stránce about_me.html
 document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.getElementById('carouselAutoplay');
@@ -12,10 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
     carousel.addEventListener('slid.bs.carousel', applyZoom);
     applyZoom();
 });
-document.addEventListener('DOMContentLoaded', () => {
+
+// Funkce pro inicializaci palet (spouští se až po načtení headeru)
+function initPalette() {
     const body = document.body;
     const paletteSelect = document.getElementById('palette-select');
-
     // Definovaní barevných palet
     const paletteVars = {
         default: {
@@ -107,4 +134,4 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('colorPalette', paletteSelect.value);
         });
     }
-});
+}
