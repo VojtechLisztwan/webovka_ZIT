@@ -7,6 +7,8 @@ function highlightActiveNav() {
         document.getElementById("nav-about")?.classList.add("active");
     } else if (path === "projekty.html") {
         document.getElementById("nav-projects")?.classList.add("active");
+    } else if (path === "kontakt.html") {
+        document.getElementById("nav-contact")?.classList.add("active");
     }
 }
 // Dynamické načtení headeru a footeru a inicializace palet až po načtení headeru
