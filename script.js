@@ -1,4 +1,4 @@
-// Zvýraznění aktivní položky v navbaru podle stránky (po načtení headeru)
+// Funkce pro zvýraznění aktivní položky v navigaci
 function highlightActiveNav() {
     const path = window.location.pathname.split("/").pop();
     if (path === "index.html" || path === "") {
@@ -11,14 +11,15 @@ function highlightActiveNav() {
         document.getElementById("nav-contact")?.classList.add("active");
     }
 }
-// Dynamické načtení headeru a footeru a inicializace palet až po načtení headeru
+
+// Načtení headeru a footeru
 document.addEventListener("DOMContentLoaded", function() {
     fetch('header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
-            highlightActiveNav(); // zvýraznění aktivní položky až po načtení headeru
-            initPalette(); // inicializace palet až po načtení headeru
+            highlightActiveNav();
+            initPalette();
         });
     fetch('footer.html')
         .then(response => response.text())
@@ -26,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('footer-placeholder').innerHTML = data;
         });
 });
-// Dynamický zoom pro carousel obrázky na stránce about_me.html
+
+// Carousel zoom efekt
 document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.getElementById('carouselAutoplay');
     if (!carousel) return;
@@ -41,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
     applyZoom();
 });
 
-// Funkce pro inicializaci palet (spouští se až po načtení headeru)
+// Barevné palety
 function initPalette() {
     const body = document.body;
     const paletteSelect = document.getElementById('palette-select');
-    // Definovaní barevných palet
+
     const paletteVars = {
         default: {
             '--bs-primary': '#0d6efd',
@@ -61,7 +63,7 @@ function initPalette() {
         blue: {
             '--bs-primary': '#2563eb',
             '--bs-primary-rgb': '37,99,235',
-            '--bs-body-bg': '#e7f0fd', // světle modrá
+            '--bs-body-bg': '#e7f0fd',
             '--bs-body-color': '#212529',
             '--bs-card-bg': '#f8fbff',
             '--bs-navbar-bg': '#2563eb',
@@ -72,7 +74,7 @@ function initPalette() {
         green: {
             '--bs-primary': '#22c55e',
             '--bs-primary-rgb': '34,197,94',
-            '--bs-body-bg': '#e6f9ef', // světle zelená
+            '--bs-body-bg': '#e6f9ef',
             '--bs-body-color': '#212529',
             '--bs-card-bg': '#f6fdf9',
             '--bs-navbar-bg': '#22c55e',
@@ -83,7 +85,7 @@ function initPalette() {
         red: {
             '--bs-primary': '#ef4444',
             '--bs-primary-rgb': '239,68,68',
-            '--bs-body-bg': '#fdeaea', // světle červená
+            '--bs-body-bg': '#fdeaea',
             '--bs-body-color': '#212529',
             '--bs-card-bg': '#fff6f6',
             '--bs-navbar-bg': '#ef4444',
@@ -94,7 +96,7 @@ function initPalette() {
         purple: {
             '--bs-primary': '#a21caf',
             '--bs-primary-rgb': '162,28,175',
-            '--bs-body-bg': '#f7eafd', // světle fialová
+            '--bs-body-bg': '#f7eafd',
             '--bs-body-color': '#212529',
             '--bs-card-bg': '#fcf7ff',
             '--bs-navbar-bg': '#a21caf',
