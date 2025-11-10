@@ -1,4 +1,68 @@
-// Funkce pro zvýraznění aktivní položky v navigaci
+// Widget pro počasí na hlavní stránce
+document.addEventListener("DOMContentLoaded", function() {
+    const weatherWidget = document.getElementById('weather-widget');
+    if (!weatherWidget) return;
+    // Nastavte město a API klíč
+    const city = 'Ostrava'; // Změňte dle potřeby
+        const apiKey = '94a6f82135614915b52164645251011'; // WeatherAPI.com API klíč
+    function showWeather(data) {
+        if (!data || typeof data.current === 'undefined' || typeof data.location === 'undefined') {
+            weatherWidget.innerHTML = `<div class='text-danger'>Počasí se nepodařilo načíst.</div>`;
+            return;
+        }
+            const icon = data.current.condition.icon;
+            const desc = data.current.condition.text;
+            const temp = Math.round(data.current.temp_c);
+            const feels = Math.round(data.current.feelslike_c);
+            const humidity = data.current.humidity;
+            const wind = Math.round(data.current.wind_kph);
+            weatherWidget.innerHTML = `
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <img src="${icon}" alt="${desc}" style="width:64px;height:64px;">
+                    <div class="fs-3 fw-bold">${temp}°C</div>
+                    <div class="text-secondary mb-2">${desc}</div>
+                    <div class="small">Pocitově: ${feels}°C &nbsp;|&nbsp; Vlhkost: ${humidity}% &nbsp;|&nbsp; Vítr: ${wind} km/h</div>
+                </div>
+            `;
+    }
+    function fetchWeatherByCoords(lat, lon) {
+            const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}&lang=cs`;
+            console.log('WeatherAPI.com URL (coords):', url);
+        fetch(url)
+            .then(response => response.json())
+            .then(showWeather)
+            .catch(() => {
+                weatherWidget.innerHTML = `<div class='text-danger'>Počasí se nepodařilo načíst.</div>`;
+            });
+    }
+    function fetchWeatherByCity(city) {
+            const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}&lang=cs`;
+            console.log('WeatherAPI.com URL (city):', url);
+        fetch(url)
+            .then(response => response.json())
+            .then(showWeather)
+            .catch(() => {
+                weatherWidget.innerHTML = `<div class='text-danger'>Počasí se nepodařilo načíst.</div>`;
+            });
+    }
+    if (navigator.geolocation) {
+        weatherWidget.innerHTML = `<div class='mb-2'>Zjišťuji polohu pro počasí...</div><div class="spinner-border text-info" role="status"><span class="visually-hidden">Načítám počasí...</span></div>`;
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
+            },
+            err => {
+                // Pokud uživatel odmítne nebo nastane chyba, použij defaultní město
+                fetchWeatherByCity('Ostrava');
+            },
+            {timeout: 10000}
+        );
+    } else {
+        fetchWeatherByCity('Ostrava');
+    }
+});
+
+
 function highlightActiveNav() {
     const path = window.location.pathname.split("/").pop();
     if (path === "index.html" || path === "") {
